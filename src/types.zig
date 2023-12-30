@@ -98,7 +98,6 @@ pub const WindowType = enum {
     normal,
     dialog,
     utility,
-    toolbar,
     splash,
     menu,
     dropdown_menu,
