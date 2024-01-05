@@ -5,6 +5,23 @@ A Zig 0.11 library for controlling swaywm through its [IPC interface](https://gi
 ## Usage
 
 Examples of how to use the library can be found [here](examples).
+Add [swayipc](https://github.com/JayceFayne/swayipc-zig) as dependency by modifying your `build.zig.zon` and `build.zig` files respectively:
+
+```zig
+.{
+    .name = "app",
+    .version = "0.0.0",
+    .dependencies = .{
+        .swayipc = .{
+            .url = "https://github.com/JayceFayne/swayipc-zig/archive/<COMMIT_HASH>.tar.gz",
+        },
+    },
+}
+```
+
+```zig
+exe.addModule("swayipc", b.dependency("swayipc", .{}).module("swayipc"));
+```
 
 ## i3 compatibility
 
