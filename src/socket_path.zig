@@ -1,10 +1,10 @@
 const std = @import("std");
-const os = std.os;
+const posix = std.posix;
 const Allocator = std.mem.Allocator;
 const Child = std.process.Child;
 
 pub fn fromEnv() ?[]const u8 {
-    return if (os.getenv("SWAYSOCK")) |path| path else if (os.getenv("I3SOCK")) |path| path else null;
+    return if (posix.getenv("SWAYSOCK")) |path| path else if (posix.getenv("I3SOCK")) |path| path else null;
 }
 
 fn trySpawn(wm: [:0]const u8, allocator: Allocator) ![]const u8 {
