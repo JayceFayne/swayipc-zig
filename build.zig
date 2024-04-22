@@ -4,7 +4,9 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const swayipc = b.addModule("swayipc", .{ .source_file = .{ .path = "src/lib.zig" } });
+    const swayipc = b.addModule("swayipc", .{
+        .root_source_file = .{ .path = "src/lib.zig" },
+    });
 
     inline for ([_][]const u8{ "event_printer", "command_loop" }) |example| {
         const exe = b.addExecutable(.{
@@ -14,7 +16,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         });
 
-        exe.addModule("swayipc", swayipc);
+        exe.root_module.addImport("swayipc", swayipc);
 
         b.installArtifact(exe);
     }

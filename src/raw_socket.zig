@@ -4,13 +4,14 @@ const math = std.math;
 const Writer = std.io.Writer;
 const Stream = std.net.Stream;
 const Allocator = std.mem.Allocator;
-const writeInt = std.mem.writeIntNative;
+const writeInt = std.mem.writeInt;
 const Reader = std.io.Reader;
-const readInt = std.mem.readIntNative;
+const readInt = std.mem.readInt;
 const Buffer = std.ArrayList(u8);
 const net = std.net;
 const log = std.log;
 const mem = std.mem;
+const native_endian = @import("builtin").cpu.arch.endian();
 
 pub const Reply = struct {
     type: u32,
@@ -51,8 +52,8 @@ pub const Socket = struct {
         if (payload_size > math.maxInt(u32)) return error.PayloadTooBig;
         var header = self.buf.items[0..HEADER_SIZE];
         @memcpy(header[0..MAGIC.len], MAGIC);
-        writeInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)], @as(u32, @truncate(payload_size)));
-        writeInt(u32, header[MAGIC.len + @sizeOf(u32) .. header.len], command);
+        writeInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)], @as(u32, @truncate(payload_size)), native_endian);
+        writeInt(u32, header[MAGIC.len + @sizeOf(u32) .. header.len], command, native_endian);
         try writer.writeAll(header);
         if (payload) |p| try writer.writeAll(p);
     }
@@ -62,10 +63,10 @@ pub const Socket = struct {
         var header = self.buf.items[0..HEADER_SIZE];
         try reader.readNoEof(self.buf.items[0..HEADER_SIZE]);
         if (!mem.eql(u8, header[0..MAGIC.len], MAGIC)) return error.InvalidMagic;
-        const payload_size = readInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)]);
-        const reply_type = readInt(u32, header[MAGIC.len + @sizeOf(u32) .. header.len]);
+        const payload_size = readInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)], native_endian);
+        const reply_type = readInt(u32, header[MAGIC.len + @sizeOf(u32) .. header.len], native_endian);
         try self.buf.resize(payload_size);
-        var payload = self.buf.items[0..payload_size];
+        const payload = self.buf.items[0..payload_size];
         try reader.readNoEof(payload);
         return Reply{
             .type = reply_type,
