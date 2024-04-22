@@ -365,7 +365,7 @@ pub const ScrollMethod = enum {
 
 pub const ClickMethod = enum {
     button_areas,
-    click_finger,
+    clickfinger,
     none,
 };
 
