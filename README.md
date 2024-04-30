@@ -1,6 +1,6 @@
 # swayipc-zig
 
-A Zig 0.11 library for controlling swaywm through its [IPC interface](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd).
+A Zig 0.12 library for controlling swaywm through its [IPC interface](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd).
 
 ## Usage
 
@@ -10,7 +10,7 @@ Add [swayipc](https://github.com/JayceFayne/swayipc-zig) as dependency by modify
 ```zig
 .{
     .name = "app",
-    .version = "0.0.0",
+    .version = "0.2.0",
     .dependencies = .{
         .swayipc = .{
             .url = "https://github.com/JayceFayne/swayipc-zig/archive/<COMMIT_HASH>.tar.gz",
