@@ -494,12 +494,11 @@ pub const WorkspaceChange = enum {
 pub const WorkspaceEvent = struct {
     /// The type of change that occurred.
     change: WorkspaceChange,
-    /// An object representing the workspace effected or null for reload
-    /// changes.
-    current: ?Node, //Only None if WorkspaceChange::Reload
-    /// For a focus change, this is will be an object representing the workspace
+    /// An object representing the workspace effected or null for WorkspaceChange::reload
+    current: ?Node,
+    /// For a focus change, this will be an object representing the workspace
     /// being switched from. Otherwise, it is null.
-    old: ?Node, //Only None if WorkspaceChange::Reload
+    old: ?Node,
 };
 
 pub const OutputChange = enum {
