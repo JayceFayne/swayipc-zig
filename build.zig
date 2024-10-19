@@ -5,13 +5,13 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const swayipc = b.addModule("swayipc", .{
-        .root_source_file = .{ .path = "src/lib.zig" },
+        .root_source_file = b.path("src/lib.zig"),
     });
 
     inline for ([_][]const u8{ "event_printer", "command_loop" }) |example| {
         const exe = b.addExecutable(.{
             .name = example,
-            .root_source_file = .{ .path = "examples/" ++ example ++ ".zig" },
+            .root_source_file = b.path("examples/" ++ example ++ ".zig" ),
             .target = target,
             .optimize = optimize,
         });
@@ -22,8 +22,9 @@ pub fn build(b: *std.Build) void {
     }
 
     const tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/lib.zig" },
+        .root_source_file = b.path("src/lib.zig"),
         .target = target,
+        .optimize = optimize,
     });
 
     const run_tests = b.addRunArtifact(tests);

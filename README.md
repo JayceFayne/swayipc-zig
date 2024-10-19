@@ -1,6 +1,6 @@
 # swayipc-zig
 
-A Zig 0.12 library for controlling swaywm through its [IPC interface](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd).
+A Zig 0.13 library for controlling swaywm through its [IPC interface](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd).
 
 ## Usage
 
