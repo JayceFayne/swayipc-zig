@@ -287,6 +287,13 @@ pub const IdleInhibitors = struct {
     user: UserIdleInhibitType,
 };
 
+pub const Floating = enum {
+    auto_on,
+    auto_off,
+    user_on,
+    user_off,
+};
+
 pub const ScratchpadState = enum {
     none,
     fresh,
@@ -329,6 +336,9 @@ pub const Node = struct {
     focused: bool,
     /// Array of child node IDs in the current focus order.
     focus: []i64,
+    /// Floating state of container, i3 specific property
+    floating: ?Floating = null,
+    /// The tiling children nodes for the node.
     nodes: []Node,
     /// The floating children nodes for the node.
     floating_nodes: []Node,
