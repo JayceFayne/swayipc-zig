@@ -287,6 +287,12 @@ pub const IdleInhibitors = struct {
     user: UserIdleInhibitType,
 };
 
+pub const ScratchpadState = enum {
+    none,
+    fresh,
+    changed,
+};
+
 pub const Node = struct {
     /// The internal unique ID for this node.
     id: i64,
@@ -335,6 +341,9 @@ pub const Node = struct {
     /// (Only containers and views) The fullscreen mode of the node. 0 means
     /// none, 1 means full workspace, and 2 means global fullscreen.
     fullscreen_mode: ?u8 = null,
+    /// (Only views) For an xdg-shell and xwayland view, whether the window is in the scratchpad.
+    /// Otherwise, null.
+    scratchpad_state: ?ScratchpadState = null,
     /// (Only views) For an xdg-shell view, the name of the application, if set.
     /// Otherwise, null.
     app_id: ?[]const u8 = null,
