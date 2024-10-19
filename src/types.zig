@@ -690,14 +690,14 @@ pub const Event = union(EventType) {
     window: WindowEvent,
     /// Sent whenever a bar config changes.
     barconfig_upate: BarConfig,
-    /// Sent when a configured binding is executed.
+    /// Sent whenever a configured binding is executed.
     binding: BindingEvent,
-    /// Sent when the ipc shuts down because sway is exiting.
+    /// Sent whenever the ipc shuts down because sway is exiting.
     shutdown: ShutdownEvent,
-    /// Sent when an ipc client sends a SEND_TICK message.
+    /// Sent whenever an ipc client sends a SEND_TICK message.
     tick: TickEvent,
-    /// Sent when the visibility of a bar should change due to a modifier.
+    /// Sent whenever the visibility of a bar should change due to a modifier.
     bar_state_update: BarStateUpdateEvent,
-    /// Sent when something related to input devices changes.
+    /// Sent whenever something related to input devices changes.
     input: InputEvent,
 };

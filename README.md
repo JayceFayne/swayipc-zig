@@ -9,13 +9,13 @@ Add [swayipc](https://github.com/JayceFayne/swayipc-zig) as dependency by modify
 
 ```zig
 .{
-    .name = "app",
-    .version = "0.2.0",
+    ...
     .dependencies = .{
         .swayipc = .{
             .url = "https://github.com/JayceFayne/swayipc-zig/archive/<COMMIT_HASH>.tar.gz",
         },
     },
+    ...
 }
 ```
 
