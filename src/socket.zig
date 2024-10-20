@@ -5,7 +5,6 @@ const EventStream = @import("event_stream.zig").EventStream;
 const json = @import("json.zig");
 const Stream = std.net.Stream;
 const Allocator = std.mem.Allocator;
-const log = std.log;
 
 pub const Socket = struct {
     allocator: Allocator,
@@ -140,7 +139,7 @@ test "get workspaces" {
     defer swayipc.disconnect();
     const reply = try swayipc.getWorkspaces();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "subscribe" {
@@ -154,7 +153,7 @@ test "get outputs" {
     defer swayipc.disconnect();
     const reply = try swayipc.getOutputs();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "get tree" {
@@ -162,7 +161,7 @@ test "get tree" {
     defer swayipc.disconnect();
     const reply = try swayipc.getTree();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "get version" {
@@ -170,7 +169,7 @@ test "get version" {
     defer swayipc.disconnect();
     const reply = try swayipc.getVersion();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "get config" {
@@ -178,7 +177,7 @@ test "get config" {
     defer swayipc.disconnect();
     const reply = try swayipc.getConfig();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "get inputs" {
@@ -186,7 +185,7 @@ test "get inputs" {
     defer swayipc.disconnect();
     const reply = try swayipc.getInputs();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }
 
 test "get seats" {
@@ -194,5 +193,5 @@ test "get seats" {
     defer swayipc.disconnect();
     const reply = try swayipc.getSeats();
     defer reply.deinit();
-    log.info("{any}", .{reply.value});
+    std.log.info("{any}", .{reply.value});
 }

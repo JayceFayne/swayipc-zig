@@ -2,8 +2,6 @@ const std = @import("std");
 const types = @import("types.zig");
 const raw = @import("raw_socket.zig");
 const json = @import("json.zig");
-const log = std.log;
-const mem = std.mem;
 const meta = std.meta;
 const Allocator = std.mem.Allocator;
 

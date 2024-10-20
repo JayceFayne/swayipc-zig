@@ -1,16 +1,10 @@
 const std = @import("std");
 const socket_path = @import("socket_path.zig");
-const math = std.math;
-const Writer = std.io.Writer;
 const Stream = std.net.Stream;
 const Allocator = std.mem.Allocator;
-const writeInt = std.mem.writeInt;
-const Reader = std.io.Reader;
 const readInt = std.mem.readInt;
+const writeInt = std.mem.writeInt;
 const Buffer = std.ArrayList(u8);
-const net = std.net;
-const log = std.log;
-const mem = std.mem;
 const native_endian = @import("builtin").cpu.arch.endian();
 
 pub const Reply = struct {
@@ -37,10 +31,10 @@ pub const Socket = struct {
 
     pub fn connect(allocator: Allocator) !Self {
         if (socket_path.fromEnv()) |s| {
-            const stream = try net.connectUnixSocket(s);
+            const stream = try std.net.connectUnixSocket(s);
             return Self.from_stream(stream, allocator);
         } else if (socket_path.fromWM(allocator)) |s| {
-            const stream = try net.connectUnixSocket(s);
+            const stream = try std.net.connectUnixSocket(s);
             allocator.free(s);
             return Self.from_stream(stream, allocator);
         } else return error.UnableToDetermineSocketPath;
@@ -49,7 +43,7 @@ pub const Socket = struct {
     pub fn send(self: *Self, command: u32, payload: ?[]const u8) !void {
         const writer = self.stream.writer();
         const payload_size = if (payload) |p| p.len else 0;
-        if (payload_size > math.maxInt(u32)) return error.PayloadTooBig;
+        if (payload_size > std.math.maxInt(u32)) return error.PayloadTooBig;
         var header = self.buf.items[0..HEADER_SIZE];
         @memcpy(header[0..MAGIC.len], MAGIC);
         writeInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)], @as(u32, @truncate(payload_size)), native_endian);
@@ -62,7 +56,7 @@ pub const Socket = struct {
         const reader = self.stream.reader();
         var header = self.buf.items[0..HEADER_SIZE];
         try reader.readNoEof(self.buf.items[0..HEADER_SIZE]);
-        if (!mem.eql(u8, header[0..MAGIC.len], MAGIC)) return error.InvalidMagic;
+        if (!std.mem.eql(u8, header[0..MAGIC.len], MAGIC)) return error.InvalidMagic;
         const payload_size = readInt(u32, header[MAGIC.len .. MAGIC.len + @sizeOf(u32)], native_endian);
         const reply_type = readInt(u32, header[MAGIC.len + @sizeOf(u32) .. header.len], native_endian);
         try self.buf.resize(payload_size);
