@@ -112,6 +112,7 @@ pub const UserIdleInhibitType = enum {
     fullscreen,
     open,
     visible,
+    none,
 };
 
 pub const AdaptiveSyncStatus = enum {
@@ -195,6 +196,9 @@ pub const Output = struct {
     /// The workspace currently visible on the output or null for disabled
     /// outputs.
     current_workspace: ?[]const u8,
+    /// Adaptive synchronization status (often referred to as Variable
+    /// Refresh Rate, or by the vendor-specific names FreeSync/G-Sync).
+    adaptive_sync_status: ?AdaptiveSyncStatus = null,
     /// An array of supported mode objects. Each object contains width, height,
     /// and refresh.
     modes: ?[]Mode = null,
@@ -357,6 +361,32 @@ pub const Node = struct {
     /// (Only views) For an xdg-shell view, the name of the application, if set.
     /// Otherwise, null.
     app_id: ?[]const u8 = null,
+    /// (Only views) The PID of the application that owns the view.
+    pid: ?i32 = null,
+    /// (Only xwayland views) The X11 window ID for the xwayland view.
+    window: ?i64 = null,
+    /// (Only workspaces) The workspace number
+    num: ?i32 = null,
+    /// (Only xwayland views) An object containing the title, class, instance,
+    /// window_role, window_type, and transient_for for the view.
+    window_properties: ?WindowProperties = null,
+    /// List of marks assigned to the node.
+    marks: ?[]const []const u8 = null,
+    /// (Only views) Whether the view is inhibiting the idle state.
+    inhibit_idle: ?bool = null,
+    /// (Only views) An object containing the state of the application and user
+    /// idle inhibitors.  application can be enabled or none.  user can be
+    /// focus, fullscreen, open, visible or none.
+    idle_inhibitors: ?IdleInhibitors = null,
+    /// (Only views) The shell of the view, such as xdg_shell or xwayland.
+    shell: ?ShellType = null,
+    /// (Only views) Whether the node is visible.
+    visible: ?bool = null,
+    /// (Only workspaces) Name of the output the node is located on.
+    output: ?[]const u8 = null,
+    /// (Only Outputs) Adaptive synchronization status (often referred to as Variable
+    /// Refresh Rate, or by the vendor-specific names FreeSync/G-Sync).
+    adaptive_sync_status: ?AdaptiveSyncStatus = null,
 };
 
 pub const EnabledOrDisabled = enum {
